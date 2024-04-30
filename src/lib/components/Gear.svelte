@@ -8,7 +8,7 @@ Command: npx @threlte/gltf@2.0.3 --t --transform gear.glb
 	import { Group } from 'three';
 	import { T, type Props, type Events, type Slots, forwardEventHandlers } from '@threlte/core';
 	import { useGltf } from '@threlte/extras';
-	import { figureColor } from '$lib/state';
+	import { figureColor, figureDetails } from '$lib/state';
 
 	type $$Props = Props<THREE.Group>;
 	type $$Events = Events<THREE.Group>;
@@ -42,209 +42,202 @@ Command: npx @threlte/gltf@2.0.3 --t --transform gear.glb
 	const gltf = useGltf<GLTFResult>('/gear-transformed.glb', { useDraco: true });
 
 	const component = forwardEventHandlers();
+
+	async function getGltf() {
+		const gltfData = await gltf;
+		Object.keys(gltfData.nodes).forEach((nodeName) => {
+			$figureDetails[nodeName] = true;
+		});
+		return gltfData;
+	}
 </script>
 
 <T is={ref} dispose={false} {...$$restProps} bind:this={$component}>
-	{#await gltf}
+	{#await getGltf()}
 		<slot name="fallback" />
 	{:then gltf}
-		{#if $figureColor}
-			{#key $figureColor}
-				<T.Mesh
-					geometry={gltf.nodes.Base.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}
-				>
-					<T.MeshPhysicalMaterial color={$figureColor} />
-				</T.Mesh>
-				<T.Mesh
-					geometry={gltf.nodes.Base_Cap.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}
-				>
-					<T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.C_Clamp1.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.C_Clamp2.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.C_Clamp3.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear.geometry}
-					material={gltf.materials.Material}
-					position={[8.52, 65.9, 12.68]}
-					rotation={[Math.PI / 2, 0, 0]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear001.geometry}
-					material={gltf.materials.Material}
-					position={[11.83, 64, 12.68]}
-					rotation={[Math.PI / 2, 0, 0]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear002.geometry}
-					material={gltf.materials.Material}
-					position={[8.52, 62.09, 12.68]}
-					rotation={[Math.PI / 2, 0, 0]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear_Carrier.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear_Carrier_Handle.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Planet_Gear_Carrier_Rod.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Ring_Gear.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Ring_Gear_Handle.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Sun_Gear.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
-				<T.Mesh
-					geometry={gltf.nodes.Sun_Gear_Handle.geometry}
-					material={gltf.materials.Material}
-					position={[9.62, 63.99, 12.68]}
-					scale={0.08}><T.MeshPhysicalMaterial color={$figureColor} /></T.Mesh
-				>
+		{#key $figureColor}
+			{#key $figureDetails['Base']}
+				{#if $figureDetails['Base']}
+					<T.Mesh
+						geometry={gltf.nodes.Base.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
 			{/key}
-		{:else}
-			<T.Mesh
-				geometry={gltf.nodes.Base.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			>
-				<T.MeshPhysicalMaterial color={$figureColor} />
-			</T.Mesh>
-			<T.Mesh
-				geometry={gltf.nodes.Base_Cap.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.C_Clamp1.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.C_Clamp2.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.C_Clamp3.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear.geometry}
-				material={gltf.materials.Material}
-				position={[8.52, 65.9, 12.68]}
-				rotation={[Math.PI / 2, 0, 0]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear001.geometry}
-				material={gltf.materials.Material}
-				position={[11.83, 64, 12.68]}
-				rotation={[Math.PI / 2, 0, 0]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear002.geometry}
-				material={gltf.materials.Material}
-				position={[8.52, 62.09, 12.68]}
-				rotation={[Math.PI / 2, 0, 0]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear_Carrier.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear_Carrier_Handle.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Planet_Gear_Carrier_Rod.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Ring_Gear.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Ring_Gear_Handle.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Sun_Gear.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-			<T.Mesh
-				geometry={gltf.nodes.Sun_Gear_Handle.geometry}
-				material={gltf.materials.Material}
-				position={[9.62, 63.99, 12.68]}
-				scale={0.08}
-			/>
-		{/if}
+			{#key $figureDetails['Base_Cap']}
+				{#if $figureDetails['Base_Cap']}
+					<T.Mesh
+						geometry={gltf.nodes.Base_Cap.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['C_Clamp1']}
+				{#if $figureDetails['C_Clamp1']}
+					<T.Mesh
+						geometry={gltf.nodes.C_Clamp1.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['C_Clamp2']}
+				{#if $figureDetails['C_Clamp2']}
+					<T.Mesh
+						geometry={gltf.nodes.C_Clamp2.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['C_Clamp3']}
+				{#if $figureDetails['C_Clamp3']}
+					<T.Mesh
+						geometry={gltf.nodes.C_Clamp3.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear']}
+				{#if $figureDetails['Planet_Gear']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear001']}
+				{#if $figureDetails['Planet_Gear001']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear001.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear002']}
+				{#if $figureDetails['Planet_Gear002']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear002.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear_Carrier']}
+				{#if $figureDetails['Planet_Gear_Carrier']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear_Carrier.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear_Carrier_Handle']}
+				{#if $figureDetails['Planet_Gear_Carrier_Handle']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear_Carrier_Handle.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Planet_Gear_Carrier_Rod']}
+				{#if $figureDetails['Planet_Gear_Carrier_Rod']}
+					<T.Mesh
+						geometry={gltf.nodes.Planet_Gear_Carrier_Rod.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Ring_Gear']}
+				{#if $figureDetails['Ring_Gear']}
+					<T.Mesh
+						geometry={gltf.nodes.Ring_Gear.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Ring_Gear_Handle']}
+				{#if $figureDetails['Ring_Gear_Handle']}
+					<T.Mesh
+						geometry={gltf.nodes.Ring_Gear_Handle.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Sun_Gear']}
+				{#if $figureDetails['Sun_Gear']}
+					<T.Mesh
+						geometry={gltf.nodes.Sun_Gear.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+			{#key $figureDetails['Sun_Gear_Handle']}
+				{#if $figureDetails['Sun_Gear_Handle']}
+					<T.Mesh
+						geometry={gltf.nodes.Sun_Gear_Handle.geometry}
+						material={gltf.materials.Material}
+						position={[0, 0, 0]}
+						scale={0.08}
+					>
+						<T.MeshPhysicalMaterial color={$figureColor} />
+					</T.Mesh>
+				{/if}
+			{/key}
+		{/key}
 	{:catch error}
 		<slot name="error" {error} />
 	{/await}

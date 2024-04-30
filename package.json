@@ -33,8 +33,10 @@
   "dependencies": {
     "@threlte/core": "^7.3.0",
     "@threlte/extras": "^8.11.2",
+    "@types/node": "^20.12.7",
     "@types/three": "^0.164.0",
     "camera-controls": "^2.8.3",
+    "svelte-adapter-bun": "^0.5.2",
     "svelte-tweakpane-ui": "^1.2.4",
     "three": "^0.164.1"
   }

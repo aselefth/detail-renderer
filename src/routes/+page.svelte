@@ -1,28 +1,17 @@
 <script lang="ts">
 	import Scene from '$lib/components/Scene.svelte';
-	import { Canvas, type ThrelteContext } from '@threlte/core';
-	import { Pane, Slider, Color, Button, Element } from 'svelte-tweakpane-ui';
-	import { figurePosition, figureColor } from '$lib/state';
-	let canvas: ThrelteContext | undefined;
+	import { Canvas } from '@threlte/core';
+	import { Pane, Slider, Color, Button, Element, Checkbox } from 'svelte-tweakpane-ui';
+	import { figurePosition, figureColor, figureDetails, renderSettings } from '$lib/state';
 	let link = '';
+	let sceneRef: Scene;
 
 	const handleRender = () => {
-		if (!canvas) return;
-		canvas.renderer.render(canvas.scene, canvas.camera.current);
-		canvas.renderer.domElement.toBlob(
-			(blob) => {
-				console.log(canvas);
-				const url = URL.createObjectURL(blob!);
-				console.log(url);
-				link = url;
-			},
-			'image/png',
-			1.0
-		);
+		sceneRef.handleStart();
 	};
 </script>
 
-<Canvas bind:ctx={canvas}><Scene /></Canvas>
+<Canvas><Scene bind:this={sceneRef} /></Canvas>
 <Pane title="Настройки сцены" minWidth={400}>
 	<Slider
 		bind:value={$figurePosition.xAxisValue}
@@ -46,6 +35,19 @@
 		label="Ось Z"
 	/>
 	<Color label="Цвет фигуры" bind:value={$figureColor} />
+	{#if Object.keys($figureDetails).length}
+		{#each Object.keys($figureDetails) as figureDetail, i (i)}
+			<Checkbox label={figureDetail} bind:value={$figureDetails[figureDetail]} />
+		{/each}
+	{/if}
+	<Slider
+		bind:value={$renderSettings.framePerAxis}
+		step={1}
+		min={1}
+		max={10}
+		format={(v) => v.toFixed()}
+		label="Кол-во кадров на ось"
+	/>
 	<Button title="Запустить рендер" on:click={handleRender}></Button>
 	{#if link}
 		<Element>
