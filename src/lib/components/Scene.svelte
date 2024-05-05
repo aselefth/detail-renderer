@@ -10,7 +10,7 @@
 	$: RENDERS_COUNT = $renderSettings.framePerAxis ** 3;
 	$: ROT_DEG = (2 * Math.PI) / $renderSettings.framePerAxis;
 	let rendersDone = 0;
-	const MIN_DELTA = 0.7;
+	const MIN_DELTA = 0.6;
 	let delta = 0;
 	let isGridShown = true;
 	const { renderer, camera, scene } = useThrelte();
