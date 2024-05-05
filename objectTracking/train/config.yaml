@@ -1,0 +1,15 @@
+path: ../../files/
+train: train/images
+val: valid/images
+
+names:
+  0: 'Base'
+  1: 'Base_Cap'
+  2: 'C_Clamp1'
+  3: 'Planet_Gear'
+  4: 'Planet_Gear_Carrier'
+  5: 'Ring_Gear_Handle'
+  6: 'Planet_Gear_Carrier_Rod'
+  7: 'Ring_Gear'
+  8: 'Sun_Gear'
+  9: 'Sun_Gear_Handle'

@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "threlte"
+version = "0.1.0"
+description = ""
+authors = ["a.evstratov <a.evstratov@itgroup42.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+matplotlib = "^3.8.4"
+numpy = "^1.26.4"
+scipy = "^1.13.0"
+torch = "^2.3.0"
+tqdm = "^4.66.2"
+torchvision = "^0.18.0"
+opencv-python = "^4.9.0.80"
+pandas = "^2.2.2"
+seaborn = "^0.13.2"
+tensorboard = "^2.16.2"
+ultralytics = "^8.2.6"
+tensorflow = "^2.16.1"
+scikit-learn = "^1.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

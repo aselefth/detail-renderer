@@ -5,6 +5,7 @@
 	import { figurePosition, figureRotation, figureDetails, renderSettings } from '$lib/state';
 	import { injectLookAtPlugin } from '$lib/plugins/lookAt';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
+	import { Color, DoubleSide } from 'three';
 	injectLookAtPlugin();
 	$: RENDERS_COUNT = $renderSettings.framePerAxis ** 3;
 	$: ROT_DEG = (2 * Math.PI) / $renderSettings.framePerAxis;
@@ -13,6 +14,8 @@
 	let delta = 0;
 	let isGridShown = true;
 	const { renderer, camera, scene } = useThrelte();
+
+	scene.background = new Color('rgb(4, 4, 4)');
 
 	const { start, stop } = useTask(
 		(d) => {
@@ -36,7 +39,7 @@
 						.filter(([_, enabled]) => enabled === true)
 						.map(([name, _]) => name)
 						.join('_');
-					const file = new File([blob], `render_${fileName}_${rendersDone}.jpg`);
+					const file = new File([blob], `${fileName}~${rendersDone}.jpg`);
 					form.append('file', file);
 					fetch('/api/upload', { method: 'POST', body: form });
 				},
@@ -61,6 +64,10 @@
 	}
 </script>
 
+<T.Mesh position.y={-0.1} rotation.x={-Math.PI / 2} castShadow receiveShadow>
+	<T.PlaneGeometry args={[20_000, 20_000]} />
+	<T.MeshBasicMaterial color="black" />
+</T.Mesh>
 <T.PerspectiveCamera
 	position={[0, 5, 10]}
 	makeDefault
@@ -77,8 +84,31 @@
 	<T.GridHelper args={[15, 15]} />
 {/if}
 
-<T.AmbientLight color={'white'} intensity={1} />
-<T.DirectionalLight color={'white'} intensity={1} position.y={2} />
+<T.AmbientLight color={'white'} intensity={0.2} />
+<T.DirectionalLight
+	color={'white'}
+	intensity={2}
+	position.y={14}
+	position.x={4}
+	position.z={4}
+	castShadow
+/>
+<T.DirectionalLight
+	color={'white'}
+	intensity={2}
+	position.y={14}
+	position.x={-4}
+	position.z={4}
+	castShadow
+/>
+<T.DirectionalLight
+	color={'white'}
+	intensity={2}
+	position.y={14}
+	position.x={-4}
+	position.z={-4}
+	castShadow
+/>
 
 <Gear
 	position={[$figurePosition.xAxisValue, $figurePosition.yAxisValue, $figurePosition.zAxisValue]}
