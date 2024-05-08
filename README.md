@@ -1,38 +1,23 @@
-# create-svelte
+# Редактор моделей
+### Приложение для генерации датасета на основе 3D-моделей
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
+## Клиент
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+# Установка зависимостей
+npm install
+# Запуск приложения
 npm run dev
-
-# or start the server and open the app in a new browser tab
+# Запуск приложения с открытием в браузере
 npm run dev -- --open
 ```
+>*Приложение запустится на порту http://localhost:6765. Чтобы поменять порт, нужно открыть vite.config.ts и поменять ```server.port```*
 
-## Building
 
-To create a production version of your app:
-
+## Обработка данных
 ```bash
-npm run build
+# Установка зависимостей
+poetry install
+# Запуск обучения. Необходимо поменять путь к файлам в objectTracking/train/train.py
+poetry run python objectTracking/train/train.py
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
