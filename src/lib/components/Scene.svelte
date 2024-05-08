@@ -5,36 +5,39 @@
 	import { figurePosition, figureRotation, figureDetails, renderSettings } from '$lib/state';
 	import { injectLookAtPlugin } from '$lib/plugins/lookAt';
 	import { DEG2RAD } from 'three/src/math/MathUtils.js';
-	import { Color, DoubleSide } from 'three';
+	import { Color } from 'three';
 	injectLookAtPlugin();
-	$: RENDERS_COUNT = $renderSettings.framePerAxis ** 3;
-	$: ROT_DEG = (2 * Math.PI) / $renderSettings.framePerAxis;
 	let rendersDone = 0;
-	const MIN_DELTA = 0.6;
+	const MIN_DELTA = 0.75;
 	let delta = 0;
 	let isGridShown = true;
 	const { renderer, camera, scene } = useThrelte();
+	let lightXPos = Math.random();
+	let lightYPos = Math.random();
+	let lightZPos = Math.random();
 
 	scene.background = new Color('rgb(4, 4, 4)');
 
-	const { start, stop } = useTask(
+	const { start, stop, task } = useTask(
 		(d) => {
 			if (delta < MIN_DELTA) {
 				delta += d;
 				return;
 			}
-			$figureRotation.z += ROT_DEG;
-			if (rendersDone % $renderSettings.framePerAxis ** 2 === 0) {
-				$figureRotation.y += ROT_DEG;
+			const form = new FormData();
+			if (rendersDone >= $renderSettings.frames / 3) {
+				form.append('trainOnly', 'true');
 			}
-			if (rendersDone % $renderSettings.framePerAxis === 0) {
-				$figureRotation.x += ROT_DEG;
-			}
+			$figureRotation.x = Math.random() * 2 * Math.PI;
+			$figureRotation.z = Math.random() * 2 * Math.PI;
+			$figureRotation.y = Math.random() * 2 * Math.PI;
+			lightXPos = Math.random();
+			lightYPos = Math.random();
+			lightZPos = Math.random();
 			renderer.render(scene, $camera);
 			renderer.domElement.toBlob(
 				(blob) => {
 					if (!blob) return;
-					const form = new FormData();
 					const fileName = Object.entries($figureDetails)
 						.filter(([_, enabled]) => enabled === true)
 						.map(([name, _]) => name)
@@ -57,17 +60,18 @@
 		isGridShown = false;
 	}
 
-	$: if (rendersDone >= RENDERS_COUNT) {
+	export function handleStop() {
 		stop();
-		rendersDone = 0;
 		isGridShown = true;
+		rendersDone = 0;
+		delta = 0;
+	}
+
+	$: if (rendersDone >= $renderSettings.frames) {
+		handleStop();
 	}
 </script>
 
-<T.Mesh position.y={-0.1} rotation.x={-Math.PI / 2} castShadow receiveShadow>
-	<T.PlaneGeometry args={[20_000, 20_000]} />
-	<T.MeshBasicMaterial color="black" />
-</T.Mesh>
 <T.PerspectiveCamera
 	position={[0, 5, 10]}
 	makeDefault
@@ -88,25 +92,25 @@
 <T.DirectionalLight
 	color={'white'}
 	intensity={2}
-	position.y={14}
-	position.x={4}
-	position.z={4}
+	position.y={14 * lightYPos}
+	position.x={4 * lightXPos}
+	position.z={4 * lightZPos}
 	castShadow
 />
 <T.DirectionalLight
 	color={'white'}
 	intensity={2}
-	position.y={14}
-	position.x={-4}
-	position.z={4}
+	position.y={14 * lightYPos}
+	position.x={-4 * lightXPos}
+	position.z={4 * lightZPos}
 	castShadow
 />
 <T.DirectionalLight
 	color={'white'}
-	intensity={2}
-	position.y={14}
-	position.x={-4}
-	position.z={-4}
+	intensity={2 * lightXPos}
+	position.y={14 * lightYPos}
+	position.x={-4 * lightXPos}
+	position.z={-4 * lightZPos}
 	castShadow
 />
 

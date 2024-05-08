@@ -8,4 +8,4 @@ export const figurePosition = writable<{
 export const figureColor = writable<string>('#fff');
 export const figureDetails = writable<Record<string, boolean>>({});
 export const figureRotation = writable<{ x: number; y: number; z: number; }>({ x: 0, y: 0, z: 0 });
-export const renderSettings = writable<{ framePerAxis: number }>({ framePerAxis: 2 });
+export const renderSettings = writable<{ frames: number }>({ frames: 20 });

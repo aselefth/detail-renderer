@@ -9,6 +9,9 @@
 	const handleRender = () => {
 		sceneRef.handleStart();
 	};
+	const handleStopRender = () => {
+		sceneRef.handleStop();
+	};
 </script>
 
 <Canvas><Scene bind:this={sceneRef} /></Canvas>
@@ -41,14 +44,15 @@
 		{/each}
 	{/if}
 	<Slider
-		bind:value={$renderSettings.framePerAxis}
+		bind:value={$renderSettings.frames}
 		step={1}
-		min={1}
-		max={10}
+		min={20}
+		max={300}
 		format={(v) => v.toFixed()}
-		label="Кол-во кадров на ось"
+		label="Кол-во кадров"
 	/>
 	<Button title="Запустить рендер" on:click={handleRender}></Button>
+	<Button title="Остановить рендер" on:click={handleStopRender}></Button>
 	{#if link}
 		<Element>
 			<a href={link} download="img.png">save</a>
