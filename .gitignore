@@ -13,3 +13,5 @@ files/train/images/*
 files/train/labels/*
 files/valid/images/*
 files/valid/labels/*
+.idea/*
+.idea

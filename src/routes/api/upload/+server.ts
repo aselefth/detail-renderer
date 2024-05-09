@@ -3,11 +3,15 @@ import { writeFile } from 'node:fs/promises';
 import fs from 'node:fs/promises';
 import sharp from 'sharp';
 import { CHANNELS, CLASSES, SHAPE } from './constants';
+import { db } from '$lib/server';
+import { assemblyTable } from '$lib/server/schema';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const form = await request.formData();
 	const trainOnly = form.get('trainOnly') as string | null;
 	const files = form.getAll('file') as File[];
+	const assemblies = await db.select().from(assemblyTable);
+	console.log('QUERY', assemblies);
 	try {
 		await fs.access('files');
 	} catch (error) {
