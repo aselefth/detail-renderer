@@ -42,11 +42,11 @@
 						.filter(([_, enabled]) => enabled === true)
 						.map(([name, _]) => name)
 						.join('_');
-					const file = new File([blob], `${fileName}~${rendersDone}.jpg`);
+					const file = new File([blob], `${fileName}~${rendersDone}.png`);
 					form.append('file', file);
 					fetch('/api/upload', { method: 'POST', body: form });
 				},
-				'image/jpeg',
+				'image/png',
 				1
 			);
 			rendersDone += 1;

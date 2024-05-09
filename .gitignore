@@ -9,3 +9,7 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 runs
+files/train/images/*
+files/train/labels/*
+files/valid/images/*
+files/valid/labels/*

@@ -46,7 +46,7 @@
 	<Slider
 		bind:value={$renderSettings.frames}
 		step={1}
-		min={20}
+		min={1}
 		max={300}
 		format={(v) => v.toFixed()}
 		label="Кол-во кадров"
