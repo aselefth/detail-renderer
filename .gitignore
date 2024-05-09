@@ -13,5 +13,6 @@ files/train/images/*
 files/train/labels/*
 files/valid/images/*
 files/valid/labels/*
+files/logs/*
 .idea/*
 .idea

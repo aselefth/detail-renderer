@@ -14,6 +14,7 @@ export const assemblyPartTable = pgTable('assembly_part', {
 
 export const assemblyTable = pgTable('assembly', {
 	id: serial('assembly_id').primaryKey(),
+	name: text('name'),
 	createdAt: timestamp('created_at').defaultNow(),
 	updatedAt: timestamp('updated_at')
 		.defaultNow()

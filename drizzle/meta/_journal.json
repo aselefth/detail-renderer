@@ -8,6 +8,13 @@
       "when": 1715260699603,
       "tag": "0000_tiny_victor_mancha",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1715262061094,
+      "tag": "0001_curious_vargas",
+      "breakpoints": true
     }
   ]
 }

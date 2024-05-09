@@ -6,7 +6,11 @@
 	let link = '';
 	let sceneRef: Scene;
 
-	const handleRender = () => {
+	const handleRender = async () => {
+		await fetch('/api/initialize', {
+			body: JSON.stringify({ name: 'Planetary Gear Assembly' }),
+			method: 'POST'
+		});
 		sceneRef.handleStart();
 	};
 	const handleStopRender = () => {

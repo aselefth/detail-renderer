@@ -1,0 +1,1 @@
+ALTER TABLE "assembly" ADD COLUMN "name" text;
